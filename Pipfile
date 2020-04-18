@@ -7,6 +7,13 @@ verify_ssl = true
 
 [packages]
 scrapy = "*"
+flask = "*"
+flask-sqlalchemy = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
+flask-script = "*"
+flask-migrate = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.8"

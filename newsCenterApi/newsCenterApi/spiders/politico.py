@@ -13,14 +13,14 @@ class PoliticoSpider(scrapy.Spider):
         counter = 1
         with open('../data/politico_articles.json', 'w') as f:
             for item in response.xpath('//h3[@class="headline "]'):
-                num = str(counter)
+                number = str(counter)
                 title = item.css('a::text').get()
-                link = item.css('a::attr(href)').get()
+                url = item.css('a::attr(href)').get()
 
                 article = {
-                    'num': num,
+                    'number': number,
                     'title': title,
-                    'link': link,
+                    'url': url,
                     'site': 'Politico'
                 }
 

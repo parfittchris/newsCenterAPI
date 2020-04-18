@@ -12,17 +12,17 @@ class FoxSpider(scrapy.Spider):
         counter = 1
         with open('../data/fox_articles.json', 'w') as f:
             for item in response.xpath('//h2[@class="title title-color-default"]'):
-                num = str(counter) 
+                number = str(counter) 
                 title = item.css('a::text').get()
-                link = item.css('a::attr(href)').get()
+                url = item.css('a::attr(href)').get()
 
-                if 'video' in link:
+                if 'video' in url:
                     continue
 
                 article = {
-                    'num': num,
+                    'number': number,
                     'title': title,
-                    'link': link,
+                    'url': url,
                     'site': 'Fox'
                 }
 

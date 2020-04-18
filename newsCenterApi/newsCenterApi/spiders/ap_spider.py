@@ -14,15 +14,15 @@ class APSpider(scrapy.Spider):
 
         with open('../data/ap_articles.json', 'w') as f:
             for item in response.xpath('//a'):
-                num = str(counter)
+                number = str(counter)
                 title = item.css('h1::text').get()
-                link = item.css('a::attr(href)').get()
+                url = item.css('a::attr(href)').get()
                 
                 if title:
                     article = {
-                        'num': num,
+                        'number': number,
                         'title': title,
-                        'link': 'https://apnews.com' + link,
+                        'url': 'https://apnews.com' + url,
                         'site': 'AP'
                     }
 
