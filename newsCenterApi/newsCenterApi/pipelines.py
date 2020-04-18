@@ -1,5 +1,3 @@
-import sqlite3
-
 # -*- coding: utf-8 -*-
 
 # Define your item pipelines here
@@ -10,32 +8,15 @@ import sqlite3
 
 class NewscenterapiPipeline(object):
     def __init__(self):
-        self.create_connection()
-        self.create_table()
+        self.file = open("articles.json","wb")
+        self.exporter = JsonItemExporter(self.file, encoding='utf-8', ensure_ascii=False)
+        self.exporter.start_exporting()
+    
 
-    def create_connection(self):
-        self.conn = sqlite3.connect("articles.db")
-        self.curr = self.conn.cursor()
-
-    def create_table(self):
-        self.curr.execute("""DROP TABLE IF EXISTS articles_tb""")
-        self.curr.execute("""create table articles_tb(
-                            num integer,
-                            title text,
-                            link text,
-                            site text
-
-        )""")
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.file.close()
 
     def process_item(self, item, spider):
-        self.store_db(item)
+        self.exporter.export_item(item)
         return item
-
-    def store_db(self, item):
-        self.curr.execute("""insert into articles_tb values(?, ?, ?, ?)""",(
-            item['num'],
-            item['title'],
-            item['link'],
-            item['site']
-        ))
-        self.conn.commit()

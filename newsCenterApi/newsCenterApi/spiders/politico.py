@@ -1,34 +1,31 @@
 import scrapy
 import json
 
-class FoxSpider(scrapy.Spider):
-    name = "fox"
+
+class PoliticoSpider(scrapy.Spider):
+    name = "politico"
 
     start_urls = [
-        'https://www.foxnews.com'
+        'https://www.politico.com/'
     ]
 
     def parse(self, response):
         counter = 1
-        with open('../data/fox_articles.json', 'w') as f:
-            for item in response.xpath('//h2[@class="title title-color-default"]'):
-                num = str(counter) 
+        with open('../data/politico_articles.json', 'w') as f:
+            for item in response.xpath('//h3[@class="headline "]'):
+                num = str(counter)
                 title = item.css('a::text').get()
                 link = item.css('a::attr(href)').get()
-
-                if 'video' in link:
-                    continue
 
                 article = {
                     'num': num,
                     'title': title,
                     'link': link,
-                    'site': 'Fox'
+                    'site': 'Politico'
                 }
 
                 extract = json.dumps(article)
                 f.write(extract+'\n')
                 counter += 1
-
 
 
