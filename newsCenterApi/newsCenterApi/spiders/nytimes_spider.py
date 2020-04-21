@@ -1,5 +1,7 @@
 import scrapy
 import json
+from datetime import datetime
+
 
 
 class FoxSpider(scrapy.Spider):
@@ -10,19 +12,24 @@ class FoxSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
+        time = datetime.now()
+
         counter = 1
-        with open('../data/nytimes_articles.json', 'w') as f:
-            for item in response.xpath('//a'):
+        with open('./data/nytimes_articles.json', 'w') as f:
+            
+            for item in response.xpath('//article'):
                 number = str(counter)
                 title = item.css('h2::text').get()
                 url = item.css('a::attr(href)').get()
 
-                if title:
+
+                if title and not title == ' ':
                     article = {
                         'number': number,
                         'title': title,
                         'url': url,
-                        'site': 'nytimes'
+                        'site': 'nytimes',
+                        'time': time.strftime("%m/%d/%Y, %H:%M:%S")
                     }
 
                     extract = json.dumps(article)

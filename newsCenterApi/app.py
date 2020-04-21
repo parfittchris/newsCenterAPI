@@ -26,17 +26,20 @@ class Article(db.Model):
     title = db.Column(db.String(500))
     url = db.Column(db.String(500))
     number = db.Column(db.Integer)
+    time = db.Column(db.String(100))
 
-    def __init__(self, site, title, url, number):
+    def __init__(self, site, title, url, number, time):
         self.site = site
         self.title = title
         self.url = url
         self.number = number
+        self.time = time
+
 
 
 class ArticleSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'site', 'title', 'url', 'number')
+        fields = ('id', 'site', 'title', 'url', 'number', 'time')
 
 article_schema = ArticleSchema()
 articles_schema = ArticleSchema(many=True)
@@ -50,7 +53,8 @@ def addArticles(organization):
             title = row['title']
             url = row['url']
             number = row['number']
-
+            time = row['time']
+            
             current = Article.query.filter(Article.number == number, Article.site == organization).first()
             
             if current:
@@ -58,9 +62,10 @@ def addArticles(organization):
                 current.title = title
                 current.url = url
                 current.number = number
+                current.time = time
                 db.session.commit()
             else:
-                new_article = Article(site, title, url, number)
+                new_article = Article(site, title, url, number, time)
                 db.session.add(new_article)
                 db.session.commit()
 
@@ -76,8 +81,9 @@ def add_article():
     title = request.json['title']
     url = request.json['url']
     number = request.json['number']
+    time = request.json['time']
 
-    new_article = Article(site, title, url, number)
+    new_article = Article(site, title, url, number, time)
 
     db.session.add(new_article)
     db.session.commit()
@@ -94,3 +100,4 @@ if __name__ == '__main__':
 # addArticles('nytimes')
 # addArticles('Fox')
 # addArticles('AP')
+# addArticles('Buzzfeed')

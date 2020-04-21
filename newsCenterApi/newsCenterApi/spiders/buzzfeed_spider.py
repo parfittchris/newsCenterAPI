@@ -3,29 +3,29 @@ import json
 from datetime import datetime
 
 
-class ReutersSpider(scrapy.Spider):
-    name = "reuters"
+class BuzzfeedSpider(scrapy.Spider):
+    name = "buzzfeed"
 
     start_urls = [
-        'https://www.reuters.com/'
+        'https://www.buzzfeed.com'
     ]
 
     def parse(self, response):
         counter = 1
         time = datetime.now()
 
-        with open('./data/Reuters_articles.json', 'w') as f:
-            for item in response.xpath('//a'):
+        with open('./data/Buzzfeed_articles.json', 'w') as f:
+            for item in response.xpath('//article'):
                 number = str(counter)
-                title = item.css('h3::text').get()
+                title = item.css('a::text').get().lstrip()
                 url = item.css('a::attr(href)').get()
 
                 if title:
                     article = {
                         'number': number,
                         'title': title,
-                        'url': 'https://www.reuters.com' + url,
-                        'site': 'Reuters',
+                        'url': url,
+                        'site': 'Buzzfeed',
                         'time': time.strftime("%m/%d/%Y, %H:%M:%S")
                     }
 
