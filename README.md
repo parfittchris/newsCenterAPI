@@ -3,7 +3,7 @@
 
 
 ## Background and Overview
-This app serves as the backend api for my News Center app (https://github.com/parfittchris/newscenter_app). It was built in Flask with the webscraping itself done using Scrapy.
+This app serves as the backend api for my News Center app (https://github.com/parfittchris/newscenter_app). It was built in Flask with the webscraping itself done using Scrapy. Note: This is Version 2 of this app, rebuilt to use Scrapy. The original version using Selenium to scrape is located here: https://github.com/parfittchris/newsCenterBackend.
 
 
 ## Features
